@@ -2,7 +2,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-20 10:37:32
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-20 19:33:34
+ * @LastEditTime : 2021-11-23 18:57:21
  * @Descripttion : user controller
  */
 import {
@@ -13,13 +13,14 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreatedUserDto } from './user.dto';
-
+import { CreatedUserDto, GetUsersDto } from './user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { UseGuards } from '@nestjs/common';
 @ApiTags('用户管理')
+@UseGuards(AuthGuard('jwt'))
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -42,7 +43,7 @@ export class UserController {
    */
   @ApiOperation({ summary: '获取所有用户' })
   @Get()
-  async getUsers(@Query() query) {
+  async getUsers(@Body() query: GetUsersDto) {
     return await this.userService.getUsers(query);
   }
 

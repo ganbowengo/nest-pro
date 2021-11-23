@@ -2,7 +2,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-20 19:30:02
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-20 20:58:23
+ * @LastEditTime : 2021-11-21 11:25:54
  * @Descripttion :
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -16,11 +16,19 @@ export class CreatedUserDto {
   @IsNotEmpty({ message: '用户名不能为空' })
   readonly name: string;
 
-  @ApiProperty({ description: '用户联系方式' })
+  @ApiProperty({ description: '密码' })
+  @IsNotEmpty({ message: '密码不能为空' })
+  readonly password: string;
+
+  @ApiProperty({ description: '确认密码' })
+  @IsNotEmpty({ message: '确认密码不能为空' })
+  readonly repassword: string;
+
+  @ApiPropertyOptional({ description: '用户联系方式' })
   @IsString()
   readonly phone: string;
 
-  @ApiProperty({ description: '用户年龄' })
+  @ApiPropertyOptional({ description: '用户年龄' })
   @IsNumber()
   readonly age: number;
 
@@ -29,4 +37,12 @@ export class CreatedUserDto {
 
   @ApiPropertyOptional({ description: '更新时间' })
   readonly update_time: Date;
+}
+
+export class GetUsersDto {
+  @ApiPropertyOptional({ description: '当前页展示数量' })
+  readonly pageSize: number;
+
+  @ApiPropertyOptional({ description: '当前页码' })
+  readonly pageNumber: number;
 }

@@ -2,22 +2,24 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-19 19:28:18
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-20 20:46:23
+ * @LastEditTime : 2021-11-23 17:58:05
  * @Descripttion : 入口文件
  */
 
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from './pipe/validation.pipe';
+import { ValidationPipe } from './core/pipe/validation.pipe';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './core/filter/http-exception.filter';
+import { AnyExceptionFilter } from './core/filter/any-exception.filter';
 import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useGlobalFilters(new HttpExceptionFilter()); // 全局错误过滤
+  app.useGlobalFilters(new AnyExceptionFilter()); // 全局其他异常过滤器
+  app.useGlobalFilters(new HttpExceptionFilter()); // 全局http异常过滤器
   app.useGlobalInterceptors(new TransformInterceptor()); // 全局成功拦截器
   app.useGlobalPipes(new ValidationPipe());
   // 设置swagger文档

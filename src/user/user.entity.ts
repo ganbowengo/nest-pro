@@ -3,7 +3,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-20 11:13:49
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-20 16:12:22
+ * @LastEditTime : 2021-11-21 10:16:24
  * @Descripttion : Entity
  */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
@@ -15,6 +15,12 @@ export class UserEntity {
 
   @Column({ length: 50 })
   name: string;
+
+  @Column()
+  password: string;
+
+  @Column()
+  password_salt: string;
 
   @Column({ length: 20 })
   phone: string;
