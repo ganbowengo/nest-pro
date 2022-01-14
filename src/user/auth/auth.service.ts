@@ -2,7 +2,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-21 10:57:00
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-21 16:42:05
+ * @LastEditTime : 2021-11-24 10:43:10
  * @Descripttion :
  */
 import { HttpException, Injectable } from '@nestjs/common';
@@ -34,6 +34,7 @@ export class AuthService {
     const payload = {
       username: user.name,
       sub: user.id,
+      role: user.role,
     };
     const token = this.jwtService.sign(payload);
     return { token };

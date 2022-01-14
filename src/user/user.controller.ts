@@ -2,7 +2,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-20 10:37:32
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-23 18:57:21
+ * @LastEditTime : 2021-11-24 21:18:04
  * @Descripttion : user controller
  */
 import {
@@ -13,14 +13,19 @@ import {
   Param,
   Post,
   Put,
+  //   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CreatedUserDto, GetUsersDto } from './user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UseGuards } from '@nestjs/common';
+// import { RbacInterceptor } from 'src/core/interceptor/rbac.interceptor';
+import { RbacGuard } from 'src/core/guards/rbac.guard';
+import { NoAuth } from 'src/core/decorator/noauth.decorator';
 @ApiTags('用户管理')
-@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'), RbacGuard)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -31,6 +36,7 @@ export class UserController {
    * @returns
    */
   @ApiOperation({ summary: '获取指定用户' })
+  @NoAuth()
   @Get(':id')
   async getUserById(@Param('id') id) {
     return await this.userService.getUserById(id);

@@ -2,7 +2,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-20 10:38:02
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-23 19:22:52
+ * @LastEditTime : 2022-01-13 14:20:24
  * @Descripttion : user service
  */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
@@ -21,12 +21,12 @@ export class UserService {
   ) {}
 
   // 获取指定用户
-  async getUserById(id): Promise<UserEntity> {
+  async getUserById(id: number): Promise<UserEntity> {
     return await this.userRepository.findOne(id);
   }
 
   // 获取指定用户
-  async getUserByName(name): Promise<UserEntity> {
+  async getUserByName(name: string): Promise<UserEntity> {
     return await this.userRepository.findOne({ where: { name } });
   }
 
@@ -57,6 +57,7 @@ export class UserService {
     const salt = makeSalt();
     user.password_salt = salt;
     user.password = encryptPassword(password, salt);
+    user.role = user.role || 3;
     delete user.repassword;
     const res = await this.userRepository.save(user);
     return Promise.resolve({
@@ -67,7 +68,7 @@ export class UserService {
   }
 
   // 更新用户
-  async update(id, user): Promise<UserEntity> {
+  async update(id: number, user: UserEntity): Promise<UserEntity> {
     const cur = await this.userRepository.findOne({ where: { id } });
     if (!cur) {
       throw new HttpException('当前用户不存在', HttpStatus.BAD_REQUEST);
@@ -78,7 +79,7 @@ export class UserService {
   }
 
   // 删除用户
-  async remove(id) {
+  async remove(id: number) {
     const cur = await this.userRepository.findOne({ where: { id } });
     if (!cur) {
       throw new HttpException('当前用户不存在', HttpStatus.BAD_REQUEST);

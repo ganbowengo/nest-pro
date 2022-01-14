@@ -2,7 +2,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-19 19:28:18
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-21 09:45:39
+ * @LastEditTime : 2021-11-24 16:23:33
  * @Descripttion : 
 -->
 # nest从爬到走
@@ -17,3 +17,6 @@ nest new project-name
 ```bash
 nest g [文件类型] [文件名] [文件目录（src目录下）]
 ```
+
+## 生命周期及执行阶段
+1. client -> middleware -> guard -> interceptor -> pipe -> controller -> interceptor -> client

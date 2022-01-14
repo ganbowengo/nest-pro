@@ -3,7 +3,7 @@
  * @Author       : ganbowen
  * @Date         : 2021-11-20 11:13:49
  * @LastEditors  : ganbowen
- * @LastEditTime : 2021-11-21 10:16:24
+ * @LastEditTime : 2021-11-24 10:54:02
  * @Descripttion : Entity
  */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
@@ -27,6 +27,9 @@ export class UserEntity {
 
   @Column()
   age: number;
+
+  @Column()
+  role: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   create_time: Date;
